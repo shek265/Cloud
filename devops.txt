@@ -1,0 +1,249 @@
+docker
+
+#yum check-update
+#yum -y install docker
+#systemctl start docker
+#systemctl status docker
+#docker info
+#docker run hello-world
+#docker search centos
+#docker pull centos
+#docker run centos
+#docker images
+#docker run -it centos
+#apt-get update
+#yum install mariadb-server
+#exit
+#docker commit -m "added mariadb-server" -a "somename" 59839a1b7de2 root/centos-mariadb
+#docker images
+#docker ps
+#docker ps -a
+#docker ps -l
+#docker stop container-id
+_____________________________________________
+
+docker swarm
+
+useradd
+passwd
+nano /etc/hosts
+Manager Node – 192.168.1.103 dockermanager
+Worker Node1 – 192.168.1.107 dockerworker1
+Worker Node2 – 192.168.1.108 dockerworker2
+# ping dockerworker1
+# ping dockerworker2
+From Docker Worker Node 1
+# ping dockermanager
+From Docker Worker Node 2
+# ping dockermanager
+
+# apt-get update
+# apt-get install apt-transport-https ca-certificates curl software-properties-common -y
+#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+# add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+# apt-get update
+
+#apt-get install docker-ce
+# systemctl start docker
+# systemctl enable docker
+# systemctl status docker
+# usermod -aG docker <username>
+# su - manager
+$ docker run hello-world
+$ docker swarm init --advertise-addr 192.168.1.103
+$ docker node ls
+$ docker swarm join-token manager -q
+$ docker swarm join-token worker -q
+$ docker service create --name my-web2 --publish 8082:80 --replicas 2 nginx
+$ docker service ls
+$ docker service ps my-web1
+$ curl http://dockermanager:8081
+$ docker service scale my-web1=3
+$ docker service inspect
+________________________________________________________________
+
+kubernetes
+
+$ sudo su 
+# apt-get update 
+# swapoff -a 
+# nano /etc/fstab
+# nano /etc/hostname
+# nano /etc/hosts
+# nano /etc/network/interface
+# sudo apt-get install openssh-server
+# sudo su 
+# apt-get update  
+# apt-get install -y docker.io
+# apt-get update && apt-get install -y apt-transport-https curl 
+# curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | aptkey add - 
+# cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main 
+EOF
+# apt-get update 
+# apt-get install -y kubelet kubeadm kubectl 
+# nano /etc/systemd/system/kubelet.service.d/10-kubeadm.conf 
+Environment=”cgroup-driver=systemd/cgroup-driver=cgroupfs” 
+# kubeadm init --apiserver-advertise-address=<ip-address-of-kmastervm> --v=5 --pod-network-cidr=192.168.0.0/16 
+#exit
+$ mkdir -p $HOME/.kube 
+$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config 
+$ sudo chown $(id -u):$(id -g) $HOME/.kube/config 
+$ kubectl get pods -o wide --all-namespaces
+$ kubectl apply -f https://docs.projectcalico.org/v3.10/manifests/calico.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+
+$ kubectl proxy
+Now access Dashboard at:	
+
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+new terminal
+$ kubectl create serviceaccount dashboard -n default
+$ kubectl create clusterrolebinding dashboard-admin -n default    --clusterrole=cluster-admin    --serviceaccount=default:dashboard 
+$ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}') | grep ^token: | sed 's/token:[ ]*/Token:\n/'
+
+___________________________________________________________________
+ 
+jenkins
+# apt-get update
+# sudo apt install openjdk-8-jdk
+# java –version
+# wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+# echo deb http://pkg.jenkins.io/debian-stable binary/| sudo tee /etc/apt/sources.list.d/jenkins.list
+# sudo apt-get update
+# sudo apt-get install jenkins
+# sudo systemctl start jenkins
+# sudo systemctl status jenkins
+
+http://ip_address_or_domain_name:8080
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+Install suggested plugins
+
+# yum install git
+
+# cd /var/lib/jenkins/workspace/techi_project/
+# ls -l
+
+______________________________________________________________________
+
+git
+
+$ sudo apt-get install git-core
+$ git --version
+$ git config --global user.name "Jerry Mouse"
+$ git config --global user.email jerry@abc.com
+$ git config --global branch.autosetuprebase always
+
+git config --global color.ui true
+
+$ git config --global color.status auto
+
+$ git config --global color.branch auto
+$ git config –list
+
+git init
+git status
+git add -a
+git commit -m ""
+
+git remote add origin <link of your central repository>
+git pull origin master
+git push <remote> 
+
+git branch <branch-name>
+git checkout <branch_name> and then
+git commit
+
+git add test3.txt
+git commit -m”adding test3.txt” 
+
+git merge <branch_name>
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+image build
+
+file:dockerfile in dock folder with 777 permission and progrm file and a dock folder
+
+
+
+FROM gcc:latest
+
+RUN apt-get update
+
+COPY . /dock
+
+WORKDIR /dock
+
+RUN gcc -o add add.c
+
+CMD ["./add"]
+
+program file in dock folder
+
+
+docker build -t dock:v1 .
+
+docker images
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
